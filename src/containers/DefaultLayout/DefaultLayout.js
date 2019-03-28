@@ -1,7 +1,9 @@
 import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Container } from 'reactstrap';
+import { Badge, Card, CardBody, CardFooter, CardHeader, Col, Row, Collapse, Fade, Jumbotron } from 'reactstrap';
 import { isLoggedIn } from '../../services/AuthService';
+import Arts from '../../views/Arts/Arts';
 
 import {
   AppAside,
@@ -72,7 +74,12 @@ class DefaultLayout extends Component {
                         )} />
                     ) : (null);
                   })}
-                  <h2>DAR Admin dashboard</h2>
+                  <Row>
+                    <Col>
+                      <br/><br/>
+                      <h2 class="text-center">Welcome to OpenARI Admin Dashboard</h2>
+                    </Col>
+                  </Row>
                 </Switch>
               </Suspense>
             </Container>

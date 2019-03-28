@@ -49,7 +49,7 @@ class DefaultHeader extends Component {
         <Nav className="ml-auto" navbar>
           <AppHeaderDropdown direction="down">
             <DropdownToggle nav>
-              <img src={'../../assets/img/avatars/6.jpg'} className="img-avatar" alt={this.state.authIdToken.email} />
+              <img src={'../../assets/img/avatars/2.jpg'} className="img-avatar" alt={this.state.authIdToken.email} />
             </DropdownToggle>
             <DropdownMenu right style={{ right: 'auto' }}>
             <DropdownItem header tag="div" className="text-center"><strong>Admin Accounts</strong></DropdownItem>
