@@ -37,9 +37,40 @@ const Widgets = React.lazy(() => import('./views/Widgets/Widgets'));
 const Users = React.lazy(() => import('./views/Users/Users'));
 const User = React.lazy(() => import('./views/Users/User'));
 
+
+const ChangePassword = React.lazy(() => import('./views/ChangePassword/ChangePassword'));
+
+const Admins = React.lazy(() => import('./views/Admins/Admins'));
+const Admin = React.lazy(() => import('./views/Admins/Admin'));
+const Artists = React.lazy(() => import('./views/Artists/Artists'));
+const Artist = React.lazy(() => import('./views/Artists/Artist'));
+const Arts = React.lazy(() => import('./views/Arts/Arts'));
+const Art = React.lazy(() => import('./views/Arts/Art'));
+const ArtRevisions = React.lazy(() => import('./views/ArtRevisions/ArtRevisions'));
+const ArtRevision = React.lazy(() => import('./views/ArtRevisions/ArtRevision'));
+const Pointers = React.lazy(() => import('./views/Pointers/Pointers'));
+const Pointer = React.lazy(() => import('./views/Pointers/Pointer'));
+const Applications = React.lazy(() => import('./views/Applications/Applications'));
+const Application = React.lazy(() => import('./views/Applications/Application'));
+
+
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   { path: '/', exact: true, name: 'Home', component: DefaultLayout },
+  { path: '/change-password', name: 'Change Password', component: ChangePassword, exact: true },
+  { path: '/admins', name: 'Admin Users', component: Admins, exact: true },
+  { path: '/admins/:id', name: 'Admin', component: Admin, exact: true },
+  { path: '/artists', name: '藝術家', component: Artists, exact: true },
+  { path: '/artists/:id', name: '藝術家資料', component: Artist, exact: true },
+  { path: '/arts', name: '藝術作品', component: Arts, exact: true },
+  { path: '/arts/:id', name: '作品資料', component: Art, exact: true },
+  { path: '/art-revisions', name: '作品異動', component: ArtRevisions, exact: true },
+  { path: '/art-revisions/:id', name: '異動資料', component: ArtRevision, exact: true },
+  { path: '/pointers', name: '作品指向', component: Pointers, exact: true },
+  { path: '/pointers/:id', name: '指向資料', component: Pointer, exact: true },
+  { path: '/applications', name: '第三方應用', component: Applications, exact: true },
+  { path: '/applications/:id', name: '第三方應用資料', component: Application, exact: true },
+
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },

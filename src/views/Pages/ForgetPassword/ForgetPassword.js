@@ -1,37 +1,23 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
-import { login } from '../../../services/AuthService';
+import { forgetPassword } from '../../../services/AuthService';
 import { MsgModal } from '../../../views/Notifications';
 import LaddaButton, { EXPAND_RIGHT } from 'react-ladda';
 
 import 'ladda/dist/ladda-themeless.min.css';
 
-const FormErrors = ({formErrors}) =>
-  <div className='formErrors'>
-    {Object.keys(formErrors).map((fieldName, i) => {
-      if(formErrors[fieldName].length > 0){
-        return (
-          <p key={i}>{fieldName} {formErrors[fieldName]}</p>
-        )
-      } else {
-        return '';
-      }
-    })}
-  </div>
-
-class Login extends Component {
+class ForgetPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
-      password: '',
-      formErrors: { email: '', password: '' },
+      formErrors: { email: '' },
       emailValid: false,
-      passwordValid: false,
       formValid: false,
       formWasValidated: false,
       isWarningModalOpen: false,
+      isSuccessModalOpen: false,
     };
   }
 
@@ -40,12 +26,7 @@ class Login extends Component {
       () => { this.validateField('email', this.state.email); });
   }
 
-  handlePasswordChange = (e) => {
-    this.setState({password: e.target.value},
-      () => { this.validateField('password', this.state.password); });
-  }
-
-  handleLogin = (e) => {
+  handleForgetPassword = (e) => {
     e.stopPropagation();
 
     if(!this.state.formValid){
@@ -53,12 +34,10 @@ class Login extends Component {
     }
 
     this.setState({processing: true});
-    login(this.state.email, this.state.password)
+    forgetPassword(this.state.email)
       .then(() => {
-        this.setState({
-          processing: false,
-          isLoggedIn: true
-        });
+        this.setState({processing: false});
+        this.setState({ isSuccessModalOpen: true });
       })
       .catch((err) => {
         this.setState({processing: false});
@@ -69,16 +48,11 @@ class Login extends Component {
   validateField(fieldName, value) {
     let fieldValidationErrors = this.state.formErrors;
     let emailValid = this.state.emailValid;
-    let passwordValid = this.state.passwordValid;
 
     switch(fieldName) {
       case 'email':
         emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
         fieldValidationErrors.email = emailValid ? '' : ' is invalid';
-        break;
-      case 'password':
-        passwordValid = value.length >= 4;
-        fieldValidationErrors.password = passwordValid ? '': ' is too short';
         break;
       default:
         break;
@@ -87,12 +61,15 @@ class Login extends Component {
                     formWasValidated: true,
                     formErrors: fieldValidationErrors,
                     emailValid: emailValid,
-                    passwordValid: passwordValid
                   }, this.validateForm);
   }
 
   validateForm() {
-    this.setState({formValid: this.state.emailValid && this.state.passwordValid});
+    this.setState({formValid: this.state.emailValid});
+  }
+
+  closeSuccessModal = () => {
+    this.setState({isSuccessModalOpen: false});
   }
 
   closeWarningModal = () => {
@@ -100,16 +77,14 @@ class Login extends Component {
   }
 
   render() {
-    const { isLoggedIn } = this.state;
-
-    if (isLoggedIn) {
-      return <Redirect to='/'/>;
-    }
-
     return (
       <div className="app flex-row align-items-center">
+        <MsgModal msgType="success" title="Success" isOpen={this.state.isSuccessModalOpen} onRequestClose={this.closeSuccessModal}>
+          <p>Done! Your password is reset.</p>
+          <p>Please check your mailbox for the new password.</p>
+        </MsgModal>
         <MsgModal msgType="warning" title="Failed" isOpen={this.state.isWarningModalOpen} onRequestClose={this.closeWarningModal}>
-          <p>Login failed.</p>
+          <p>Something wrong!</p>
         </MsgModal>
         <Container>
           <Row className="justify-content-center">
@@ -118,11 +93,8 @@ class Login extends Component {
                 <Card className="p-4">
                   <CardBody>
                     <Form className={this.state.formWasValidated ? 'was-validated' : ''}>
-                      <h1>Login</h1>
-                      <p className="text-muted">Sign in to your account</p>
-                      <div className="panel panel-default">
-                        <FormErrors formErrors={this.state.formErrors} />
-                      </div>
+                      <h1>Forget Password</h1>
+                      <p className="text-muted">We got you covered! Please enter your email address, we will send you the new password.</p>
                       <InputGroup className="mb-3">
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
@@ -134,23 +106,12 @@ class Login extends Component {
                           Invalid email address.
                         </div>
                       </InputGroup>
-                      <InputGroup className="mb-4">
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                            <i className="icon-lock"></i>
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input type="password" placeholder="Password" autoComplete="current-password" required onChange={this.handlePasswordChange} />
-                        <div className="invalid-feedback">
-                          Password is required and at least 4 characters.
-                        </div>
-                      </InputGroup>
                       <Row>
                         <Col xs="6">
-                          <LaddaButton color="primary" className="btn btn-success btn-ladda-progress" data-style={EXPAND_RIGHT} type="submit" onClick={this.handleLogin} loading={this.state.processing}>Login</LaddaButton>
+                          <LaddaButton color="primary" className="btn btn-success btn-ladda-progress" data-style={EXPAND_RIGHT} type="submit" onClick={this.handleForgetPassword} loading={this.state.processing}>Submit</LaddaButton>
                         </Col>
                         <Col xs="6" className="text-right">
-                          <Link to="/forget-password" color="link" className="px-0">Forgot password?</Link>
+                          <Link to="/login" className="px-0">Sign in</Link>
                         </Col>
                       </Row>
                     </Form>
@@ -174,4 +135,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default ForgetPassword;

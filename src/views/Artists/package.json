@@ -1,0 +1,6 @@
+{
+  "name": "Artists",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Artists.js"
+}

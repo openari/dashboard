@@ -1,6 +1,7 @@
 import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Container } from 'reactstrap';
+import { isLoggedIn } from '../../services/AuthService';
 
 import {
   AppAside,
@@ -33,6 +34,10 @@ class DefaultLayout extends Component {
   }
 
   render() {
+    if (!isLoggedIn()) {
+      return <Redirect to='/login'/>;
+    }
+
     return (
       <div className="app">
         <AppHeader fixed>
