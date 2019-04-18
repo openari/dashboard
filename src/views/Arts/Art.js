@@ -86,6 +86,19 @@ class Art extends Component {
     });
   }
 
+  toggleImageModal = () => {
+    this.setState({
+      imageModalShowing: !this.state.imageModalShowing
+    });
+  }
+
+  showArtImage = () => {
+    this.setState({
+      imageModalShowing: true,
+      imageModalImageSrc: this.state.data.identification.image
+    });
+  }
+
   render() {
 
     var data = this.state.data ? Object.entries(this.state.data) : [['id', (<span><i className="text-muted icon-ban"></i> Not found</span>)]]
@@ -152,17 +165,27 @@ class Art extends Component {
                     <tbody>
                       {
                         identification.map(([key, value], index) => {
-                            if (key == 'id' || key == 'type' ||
-                                key == 'art_id' || key == 'attachments' ||
-                                key == 'created_at' || key == 'updated_at') {
-                                  return;
+                            if (key === 'id' || key === 'type' ||
+                                key === 'art_id' || key === 'attachments' ||
+                                key === 'created_at' || key === 'updated_at') {
+                                  return null;
+                            } else if (key === 'image') {
+                              const style = {maxWidth: '300px'};
+                              return (
+                                <tr key={index.toString()}>
+                                  <td>{identificationColumnNameLookup(key)}</td>
+                                  <td>
+                                    <img src={value} style={style} onClick={this.showArtImage} alt="Art" />
+                                  </td>
+                                </tr>
+                              );
                             }
                             return (
                               <tr key={index.toString()}>
                                 <td>{identificationColumnNameLookup(key)}</td>
                                 <td><strong>{value.toString()}</strong></td>
                               </tr>
-                            )
+                            );
                         })
                       }
                     </tbody>
@@ -173,9 +196,9 @@ class Art extends Component {
                     <tbody>
                       {
                         ownership.map(([key, value], index) => {
-                            if (key == 'id' || key == 'type' || key == 'art_id' ||
-                                key == 'created_at' || key == 'updated_at') {
-                                  return;
+                            if (key === 'id' || key === 'type' || key === 'art_id' ||
+                                key === 'created_at' || key === 'updated_at') {
+                                  return null;
                             }
                             return (
                               <tr key={index.toString()}>
