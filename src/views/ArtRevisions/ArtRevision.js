@@ -94,7 +94,7 @@ class ArtRevision extends Component {
     const ownership = this.state.data.ownership ? Object.entries(this.state.data.ownership) : []
 
     return (
-      
+
       <div className="animated fadeIn">
         <MsgModal msgType="warning" title="是否確定?" hideOK={true} isOpen={this.state.isConfirmModalOpen} onRequestClose={this.closeConfirmModal}>
           <p>您確定要審核通過此作品的異動申請?</p>
@@ -192,7 +192,7 @@ class ArtRevision extends Component {
                             return (
                               <tr key={index.toString()}>
                                 <td>{identificationColumnNameLookup(key)}</td>
-                                <td><strong>{value.toString()}</strong></td>
+                                <td><strong>{(value || '').toString()}</strong></td>
                               </tr>
                             )
                         })

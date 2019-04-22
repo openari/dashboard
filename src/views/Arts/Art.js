@@ -203,7 +203,7 @@ class Art extends Component {
                             return (
                               <tr key={index.toString()}>
                                 <td>{identificationColumnNameLookup(key)}</td>
-                                <td><strong>{value.toString()}</strong></td>
+                                <td><strong>{(value || '').toString()}</strong></td>
                               </tr>
                             )
                         })
